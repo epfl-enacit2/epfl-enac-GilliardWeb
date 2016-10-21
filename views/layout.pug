@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    <!-- Latest compiled and minified CSS -->
+  link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous")
+  link(rel="stylesheet", href="bootstrap-datetimepicker.css")
+  link(rel="stylesheet", href="style.css")
+  
+
+  <script src="moment.js"></script>
+  <script src="jquery.js"></script>
+ 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script(type='text/javascript', src='script.js')></script>
+  <script(type='text/javascript', src='bootstrap-datetimepicker.min.js')></script>
+
+  <script type="text/javascript" src="/bower_components/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
+  <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+  
+  body
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand Projet Gilliard
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='/') Présentation
+            li
+              a(href='sensors') sensors
+            li
+              a(href='sensor') sensor
+    .panel.panel-default
+      .panel-body
+       br
+       
+    block content
+
+    

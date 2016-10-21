@@ -1,0 +1,29 @@
+{
+  "name": "epfl-enac-GilliardPrj-Web",
+  "version": "0.0.1",
+  "description": "Ceci est un test pour maitriser nodejs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vazafons/epfl-enac-GilliardPrj-Web.git"
+  },
+  "author": "vitor.vazafonso@hotmail.ch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vazafons/epfl-enac-GilliardPrj-Web/issues"
+  },
+  "homepage": "https://github.com/vazafons/epfl-enac-GilliardPrj-Web#readme",
+  "dependencies": {
+    "chart.js": "^2.2.2",
+    "debug": "~2.2.0",
+    "express": "^4.14.0",
+    "pug": "",
+    "sequelize": "^3.23.6",
+    "moment": "^2.15.1",
+    "mysql":"",
+    "jquery":"^3.1.1"
+  }
+}
