@@ -3,7 +3,7 @@ block content
   h1  Liste déroulante capteurs 
   fieldset.rotatinglist
   form(method='get', action='sensor')
-    select(name='selectSensor', onchange='')
+    select(id = 'selectSensor', name='selectSensor', onchange='')
       each el in title
         option(value='#{el.Computername}, #{el.SID}, #{el.BID}')  #{el.Computername}, #{el.SID}, #{el.BID}
     .container
@@ -39,10 +39,12 @@ block content
       input#myAutocomplete(type='text')
       script(type='text/javascript').
        $(function(){
-        var availableTags = [
-        "ActionScript",
-        "AppleScript",
-        ];
+        var Test = document.getElementById('selectSensor');
+        var availableTags = [];
+        for (var i=0; i < Test.length; i++){
+          availableTags[i] = Test[i]
+        }
+        console.log(Test);
         $('#myAutocomplete').autocomplete({
         source: availableTags,
         multiselect: true
