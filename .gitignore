@@ -38,3 +38,6 @@ jspm_packages
 
 # bower_components
 public/bower_components/*
+
+# Multi-Select
+jQuery-jQuery-UI-Plugin-For-Simle-Tokenized-Autocomplete-Autocomplete-Multiselect/*
