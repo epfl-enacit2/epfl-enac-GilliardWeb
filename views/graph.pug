@@ -1,0 +1,46 @@
+extends layout
+block content
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            .form-group
+                #container(style='min-width: 200px; height: 200px; margin: 0 auto')
+                        script(type='text/javascript').
+                            $(function () {
+                                        $('#container').highcharts({
+                                            title: {
+                                                text: 'Graphic Sensor',
+                                                x: -20 //center
+                                            },
+                                            subtitle: {
+                                                text: '',
+                                                x: -20
+                                            },
+                                            xAxis: {
+                                                categories: ['20.09.2106 12:01.01', '20.09.2106 14:01.02', '20.09.2106 16:01.02', '20.09.2106 18:01.01']
+                                            },
+                                            yAxis: {
+                                                title: {
+                                                    text: 'Temperature (°C)'
+                                                },
+                                                plotLines: [{
+                                                    value: 0,
+                                                    width: 1,
+                                                    color: '#808080'
+                                                }]
+                                            },
+                                            tooltip: {
+                                                valueSuffix: '°C'
+                                            },
+                                            legend: {
+                                                layout: 'vertical',
+                                                align: 'right',
+                                                verticalAlign: 'middle',
+                                                borderWidth: 0
+                                            },
+                                            series: [{
+                                                name: 'DW1',
+                                                data: [17, 11, 9, 12]
+                                            },
+                                            ]
+                                        });
+                                        });

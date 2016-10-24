@@ -62,4 +62,10 @@ router.get('/sensors', function (req, res, next) {
     });
 });
 
+router.get('/graph', function (req, res, next) {
+  res.render('graph', {
+    title : "test"
+  });
+});
+
 module.exports = router; 
