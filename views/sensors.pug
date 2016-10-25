@@ -1,34 +1,34 @@
 extends layout
 block content
-  h1  Liste déroulante capteurs 
-  form(id='Test', method='get', action='graph')
+  h1  Seléction de(s) capteur(s)
+  br 
+  form(id='Form1', method='get', action='graph')
     select(id = 'selectSensor', style="display : none")
       each el in title
         option #{el.Computername}, #{el.SID}, #{el.BID}
-    .container
     .col-md-2
       .form-group
-        #datetimepicker6.input-group.date
-          input.form-control(type='text')
+        #datetimepicker1.input-group.date
+          input.form-control(type='text', name='datetimepicker1')
           span.input-group-addon
             span.glyphicon.glyphicon-calendar
     .col-md-2
       .form-group
-        #datetimepicker7.input-group.date
-          input.form-control(type='text')
+        #datetimepicker2.input-group.date
+          input.form-control(type='text', name='datetimepicker2')
           span.input-group-addon
             span.glyphicon.glyphicon-calendar
       script(type='text/javascript').
         $(function () {
-        $('#datetimepicker6').datetimepicker();
-        $('#datetimepicker7').datetimepicker({
+        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker2').datetimepicker({
         useCurrent: false //Important! See issue #1075
         });
-        $("#datetimepicker6").on("dp.change", function (e) {
-        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        $("#datetimepicker1").on("dp.change", function (e) {
+        $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
         });
-        $("#datetimepicker7").on("dp.change", function (e) {
-        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        $("#datetimepicker2").on("dp.change", function (e) {
+        $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
             });
 
@@ -43,7 +43,6 @@ block content
               for (var i=0; i < Test.length; i++){
                 availableTags[i] = Test[i]
               }
-              console.log(document.getElementById('Test'));
               $('#myAutocomplete').autocomplete({
               source: availableTags,
               multiselect: true

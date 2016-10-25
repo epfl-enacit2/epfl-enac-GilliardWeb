@@ -62,9 +62,17 @@ router.get('/sensors', function (req, res, next) {
     });
 });
 
+
+
 router.get('/graph', function (req, res, next) {
+  var Date1 = req.query.datetimepicker1
+  var Date2 = req.query.datetimepicker2
+  //var names = req.body['names[]'];
+  //var valuesasa = req.body.myAutocomplete
+  //var test = req.query.myAutocomplete.getElementsByClassName("ui-autocomplete-multiselect-item");
+  console.log(Date1 + " " + Date2);
   res.render('graph', {
-    title : "test"
+    title : "test",
   });
 });
 
