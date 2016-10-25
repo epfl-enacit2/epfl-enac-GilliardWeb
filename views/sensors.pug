@@ -48,6 +48,20 @@ block content
               multiselect: true
               });
               })
+
+      <select id="example-enableFiltering-includeSelectAllOption" multiple="multiple",  style="display : none", multiselect>
+          each el in title
+            option #{el.Computername}, #{el.SID}, #{el.BID}
+      </select>
+      script(type='text/javascript').
+          $(document).ready(function() {
+          $('#example-enableFiltering-includeSelectAllOption').multiselect({
+          includeSelectAllOption: true,
+          enableFiltering: true
+          });
+          });
+
+
     .col-md-1
       .form-group      
         input.form-control(type='submit', name='Submit', value='Suivant')        
