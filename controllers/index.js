@@ -67,6 +67,8 @@ router.get('/sensors', function (req, res, next) {
 router.get('/graph', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
   var Date2 = req.query.datetimepicker2
+  var select = req.query.list
+  console.log(select)
   //var names = req.body['names[]'];
   //var valuesasa = req.body.myAutocomplete
   //var test = req.query.myAutocomplete.getElementsByClassName("ui-autocomplete-multiselect-item");
