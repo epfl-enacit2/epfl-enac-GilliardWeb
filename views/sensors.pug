@@ -51,7 +51,7 @@ block content
 
       <select id="example-enableFiltering-includeSelectAllOption" multiple="multiple", name='list' style="display : none", multiselect>
           each el in title
-            option #{el.Computername}, #{el.SID}, #{el.BID}
+            option(value=el) #{el.Computername}, #{el.SID}, #{el.BID}
       </select>
       script(type='text/javascript').
           $(document).ready(function() {

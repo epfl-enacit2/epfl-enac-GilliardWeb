@@ -68,14 +68,21 @@ router.get('/graph', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
   var Date2 = req.query.datetimepicker2
   var select = req.query.list
-  console.log(select)
+  var obj = [];
+  for (var j=0; j <select.length; j++) {
+    obj[j] = JSON.parse(select[j])
+}
+  console.log(obj)
   //var names = req.body['names[]'];
   //var valuesasa = req.body.myAutocomplete
   //var test = req.query.myAutocomplete.getElementsByClassName("ui-autocomplete-multiselect-item");
   console.log(Date1 + " " + Date2);
+  connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
+  .then(function (project) {
+    console.log(project);
   res.render('graph', {
-    title : "test",
+    title : project,
   });
 });
-
+});
 module.exports = router; 
