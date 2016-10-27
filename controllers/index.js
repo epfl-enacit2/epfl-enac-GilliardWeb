@@ -61,17 +61,25 @@ router.get('/sensors', function (req, res, next) {
       });
     });
 });
-
+12
 
 
 router.get('/graph', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
   var Date2 = req.query.datetimepicker2
   var select = req.query.list
-  var obj = [];
-  for (var j=0; j <select.length; j++) {
-    obj[j] = JSON.parse(select[j])
-}
+  var obj = []
+  //console.log(JSON.parse(select));
+  if(Array.isArray(select)){
+    for (var j=0; j < select.length; j++) {
+      obj[j] = JSON.parse(select[j])
+      console.log(obj[j]);
+      }
+  }
+  else{
+    obj[0] = JSON.parse(select)
+    console.log(obj[0])
+  }
   console.log(obj)
   //var names = req.body['names[]'];
   //var valuesasa = req.body.myAutocomplete
@@ -79,9 +87,11 @@ router.get('/graph', function (req, res, next) {
   console.log(Date1 + " " + Date2);
   connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
   .then(function (project) {
-    console.log(project);
+    //console.log(project);
   res.render('graph', {
-    title : project,
+    Date1 : Date1,
+    Date2 : Date2,
+    obj : obj,
   });
 });
 });
