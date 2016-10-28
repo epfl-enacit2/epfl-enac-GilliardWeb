@@ -69,25 +69,39 @@ router.get('/graph', function (req, res, next) {
   var Date2 = req.query.datetimepicker2
   var select = req.query.list
   var obj = []
+  var Computername = []
+  var SID = []
+  var BID = []
   //console.log(JSON.parse(select));
   if(Array.isArray(select)){
     for (var j=0; j < select.length; j++) {
       obj[j] = JSON.parse(select[j])
-      console.log(obj[j]);
+      Computername[j] = obj[j].Computername
+      SID[j] = obj[j].SID
+      BID[j] = obj[j].BID
+      //console.log(obj[j]);
       }
   }
   else{
-    obj[0] = JSON.parse(select)
-    console.log(obj[0])
+    obj = JSON.parse(select)
+    Computername = obj.Computername
+    SID = obj.SID
+    BID = obj.BID
+   // console.log(obj[0])
   }
-  console.log(obj)
+  //console.log(obj)
   //var names = req.body['names[]'];
   //var valuesasa = req.body.myAutocomplete
   //var test = req.query.myAutocomplete.getElementsByClassName("ui-autocomplete-multiselect-item");
-  console.log(Date1 + " " + Date2);
-  connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
+  //console.log(Date1 + " " + Date2);
+  //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
+  
+  Post.findAll({
+    where: { Sensors_SID: SID, Sensors_Boards_BID : BID, CreatedAt : {$between : ['2016-09-06', '2016-09-07']}, },
+    attributes: ['*']
+  })
   .then(function (project) {
-    //console.log(project);
+    console.log(project)
   res.render('graph', {
     Date1 : Date1,
     Date2 : Date2,
