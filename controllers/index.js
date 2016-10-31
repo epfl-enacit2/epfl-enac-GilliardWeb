@@ -1,11 +1,22 @@
+'use strict'
 var express = require('express');
 var router = express.Router();
+var GilliardDb = require('epfl-enac-gilliarddb')(
+    { 
+      hostname: 'localhost',
+      name:'testsequelize',
+      username:'root',
+      password:'password'
+    }
+  );
 
+/*
 var Sequelize = require('sequelize');
 
 var connection = new Sequelize('testsequelize', 'root', 'password');
 
 var Post = connection.define('sensorvalues', {});
+*/
 
 /* GET home page.*/
 router.get('/', function (req, res, next) {
@@ -96,7 +107,7 @@ router.get('/graph', function (req, res, next) {
   //console.log(Date1 + " " + Date2);
   //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
   
-  Post.findAll({
+  GilliardDb.models.sensorvalues.findAll({
     where: { Sensors_SID: SID, Sensors_Boards_BID : BID, CreatedAt : {$between : ['2016-09-06', '2016-09-07']}, },
     attributes: ['*']
   })
