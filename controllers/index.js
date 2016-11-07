@@ -10,13 +10,15 @@ var GilliardDb = require('epfl-enac-gilliarddb')(
     }
   );
 
-/*
-var Sequelize = require('sequelize');
+console.log(GilliardDb);
 
+
+var Sequelize = require('sequelize');
+ 
 var connection = new Sequelize('testsequelize', 'root', 'password');
 
 var Post = connection.define('sensorvalues', {});
-*/
+
 
 /* GET home page.*/
 router.get('/', function (req, res, next) {
@@ -72,10 +74,10 @@ router.get('/sensors', function (req, res, next) {
       });
     });
 });
-12
 
 
-router.get('/graph', function (req, res, next) {
+
+router.get('/graphTEST', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
   var Date2 = req.query.datetimepicker2
   var select = req.query.list
@@ -107,7 +109,8 @@ router.get('/graph', function (req, res, next) {
   //console.log(Date1 + " " + Date2);
   //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
   
-  GilliardDb.models.sensorvalues.findAll({
+  //GilliardDb.models.sensorvalues.findAll({
+  Post.findAll({
     where: { Sensors_SID: SID, Sensors_Boards_BID : BID, CreatedAt : {$between : ['2016-09-06', '2016-09-07']}, },
     attributes: ['*']
   })
@@ -120,4 +123,23 @@ router.get('/graph', function (req, res, next) {
   });
 });
 });
+
+
+router.get('/graph', function (req, res, next) {
+  GilliardDb.models.AcquisitionSys
+    .findAll(
+    {
+        where: { 
+            $and: [
+                { IdAcquisitionSys: "6ceaca30-7424-11e6-8897-b34301a7b365" }
+                ]},
+    })
+  .then(function (project) {
+    console.log(project)
+  res.render('graph', {
+
+  });
+});
+});
+
 module.exports = router; 
