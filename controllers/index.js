@@ -1,6 +1,9 @@
 'use strict'
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
+
+
 var GilliardDb = require('epfl-enac-gilliarddb')(
     { 
       hostname: 'localhost',
@@ -44,14 +47,24 @@ router.get('/sensor', function (req, res, next) {
     attributes: ['*']
   })
   */
-  connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
+  //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
+  GilliardDb.models.SensorValues
+    .findAll(
+    {
+        where: { 
+            $and: [
+                { Sensors_SID: 'DW1' },
+                ]}
+    })
   .then(function (project) {
 
+      /*
       console.log(project[0][0].Sensors_SID);
       console.log(project[0][0].Value);
       console.log(project[0][0].CreatedAt);
       console.log(project[0]);
-        
+      */
+      console.log(project);
 
     res.render('sensor', {
       title:  project[0][0].Sensors_SID,
@@ -126,18 +139,53 @@ router.get('/graphTEST', function (req, res, next) {
 
 
 router.get('/graph', function (req, res, next) {
-  GilliardDb.models.AcquisitionSys
+  var Date1 = req.query.datetimepicker1
+  var DateTest = new Date (Date1)
+  console.log(moment('2016-07-29T10:21:48.000Z').format())
+  //console.log(moment(DateTest).isValid()) // false
+  var Date2 = req.query.datetimepicker2
+  var DateTest2 = new Date (Date2)
+  var select = req.query.list
+
+
+  var obj = []
+  var Computername = []
+  var SID = []
+  var BID = []
+
+  if(Array.isArray(select)){
+    for (var j=0; j < select.length; j++) {
+      obj[j] = JSON.parse(select[j])
+      Computername[j] = obj[j].Computername
+      SID[j] = obj[j].SID
+      BID[j] = obj[j].BID
+      //console.log(obj[j]);
+      }
+  }
+  else{
+    obj = JSON.parse(select)
+    Computername = obj.Computername
+    SID = obj.SID
+    BID = obj.BID
+   // console.log(obj[0])
+  }
+
+  GilliardDb.models.SensorValues
     .findAll(
     {
         where: { 
             $and: [
-                { IdAcquisitionSys: "6ceaca30-7424-11e6-8897-b34301a7b365" }
+                { Sensors_SID: SID },
+                { Sensors_Boards_BID: BID },
+                { CreatedAt: {$between : [DateTest, DateTest2]}, }
                 ]},
     })
-  .then(function (project) {
+    .then(function (project) {
     console.log(project)
   res.render('graph', {
-
+    Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
+    Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
+    obj : obj,
   });
 });
 });
