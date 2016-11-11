@@ -9,7 +9,7 @@ var GilliardDb = require('epfl-enac-gilliarddb')(
       hostname: 'localhost',
       name:'testsequelize',
       username:'root',
-      password:'password'
+      password:''
     }
   );
 
@@ -18,7 +18,7 @@ console.log(GilliardDb);
 
 var Sequelize = require('sequelize');
  
-var connection = new Sequelize('testsequelize', 'root', 'password');
+var connection = new Sequelize('testsequelize', 'root', '');
 
 var Post = connection.define('sensorvalues', {});
 
@@ -147,7 +147,6 @@ router.get('/graph', function (req, res, next) {
   var DateTest2 = new Date (Date2)
   var select = req.query.list
 
-
   var obj = []
   var Computername = []
   var SID = []
@@ -177,15 +176,28 @@ router.get('/graph', function (req, res, next) {
             $and: [
                 { Sensors_SID: SID },
                 { Sensors_Boards_BID: BID },
-                { CreatedAt: {$between : [DateTest, DateTest2]}, }
+                { CreatedAt: {$between : [moment(DateTest).format(), moment(DateTest2).format()]},}
                 ]},
     })
     .then(function (project) {
     console.log(project)
+    var arrayDates = []
+    var arrayValues = []
+    var k = 0
+    project.forEach(function(element) {
+      arrayDates[k]= moment(element.CreatedAt).utc().format('YYYY/MM/DD HH:mm:ss'),
+      arrayValues[k]= element.Value
+      k++
+    }, this);
+    k = 0
+    console.log(moment(DateTest).format('YYYY/MM/DD HH:mm:ss'));
   res.render('graph', {
     Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
     Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
     obj : obj,
+    test : project,
+    Dates : arrayDates,
+    Values : arrayValues
   });
 });
 });

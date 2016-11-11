@@ -31,35 +31,36 @@ block content
         $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
         });
             });
-
+      //
+        .col-md-2
+          .form-group
+            #container.col
+              input#myAutocomplete.form-control(type='text')
+              script(type='text/javascript').
+                $(function(){
+                  var Test = document.getElementById('selectSensor');
+                  var availableTags = [];
+                  for (var i=0; i < Test.length; i++){
+                    availableTags[i] = Test[i]
+                  }
+                  $('#myAutocomplete').autocomplete({
+                  source: availableTags,
+                  multiselect: true
+                  });
+                  })
     .col-md-2
       .form-group
-         #container.col
-          input#myAutocomplete.form-control(type='text')
+          <select id="example-enableFiltering-includeSelectAllOption", name='list' style="display : none", multiselect>
+              each el in title
+                option(value=el) #{el.Computername}, #{el.SID}, #{el.BID}
+          </select>
           script(type='text/javascript').
-            $(function(){
-              var Test = document.getElementById('selectSensor');
-              var availableTags = [];
-              for (var i=0; i < Test.length; i++){
-                availableTags[i] = Test[i]
-              }
-              $('#myAutocomplete').autocomplete({
-              source: availableTags,
-              multiselect: true
+              $(document).ready(function() {
+              $('#example-enableFiltering-includeSelectAllOption').multiselect({
+              includeSelectAllOption: true,
+              enableFiltering: true
               });
-              })
-
-      <select id="example-enableFiltering-includeSelectAllOption" multiple="multiple", name='list' style="display : none", multiselect>
-          each el in title
-            option(value=el) #{el.Computername}, #{el.SID}, #{el.BID}
-      </select>
-      script(type='text/javascript').
-          $(document).ready(function() {
-          $('#example-enableFiltering-includeSelectAllOption').multiselect({
-          includeSelectAllOption: true,
-          enableFiltering: true
-          });
-          });
+              });
 
 
     .col-md-1
