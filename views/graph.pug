@@ -1,7 +1,5 @@
 extends layout
 block content
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
             p #{Date1}
             p #{Date2}
             p #{Dates}
@@ -11,18 +9,20 @@ block content
             .form-group
                 #container(style='min-width: 200px; height: 200px; margin: 0 auto')
                         script(type='text/javascript').
+                            console.log('Dates: --------------------')
+                            console.dir('#{Dates}'.split(','))
+                            console.log('Valeurs: --------------------')
+                            console.dir('#{Values}'.split(','))
                             $(function () {
                                         $('#container').highcharts({
                                             title: {
-                                                text: 'Graphic Sensor',
-                                                x: -20 //center
+                                                text: 'Graphic Sensor'
                                             },
                                             subtitle: {
-                                                text: '',
-                                                x: -20
+                                                text: ''
                                             },
                                             xAxis: {
-                                                categories: ['#{Dates}']
+                                                categories: '#{Dates}'.split(',')
                                             },
                                             yAxis: {
                                                 title: {
@@ -45,7 +45,7 @@ block content
                                             },
                                             series: [{
                                                 name: '#{obj.SID}',
-                                                data: [17, 11, 9, 12]
+                                                data: '#{Values}'.split(',')
                                             },
                                             ]
                                         });

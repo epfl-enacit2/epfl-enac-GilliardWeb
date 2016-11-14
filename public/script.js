@@ -13,4 +13,5 @@ function next (){
   // add the newly created element and its content into the DOM 
   var currentDiv = document.getElementById("div1"); 
   document.body.insertBefore(newDiv, currentDiv); 
+  
 }
