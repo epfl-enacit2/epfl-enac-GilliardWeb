@@ -12,7 +12,7 @@ block content
                             console.log('Dates: --------------------')
                             console.dir('#{Dates}'.split(','))
                             console.log('Valeurs: --------------------')
-                            console.dir('#{Values}'.split(','))
+                            console.dir('#{Values}'.split(',').map(Number))
                             $(function () {
                                         $('#container').highcharts({
                                             title: {
@@ -45,7 +45,7 @@ block content
                                             },
                                             series: [{
                                                 name: '#{obj.SID}',
-                                                data: '#{Values}'.split(',')
+                                                data: '#{Values}'.split(',').map(Number)
                                             },
                                             ]
                                         });
