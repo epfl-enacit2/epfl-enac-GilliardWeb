@@ -1,13 +1,7 @@
 extends layout
 block content
-            p #{Date1}
-            p #{Date2}
-            p #{Dates}
-            p #{obj.BID} #{obj.Computername} #{obj.SID}
-             each el in test
-                 p #{el.CreatedAt} #{el.Value}
             .form-group
-                #container(style='min-width: 200px; height: 200px; margin: 0 auto')
+                #container(style='min-width: 200px; height: 700px; margin: 0 auto')
                         script(type='text/javascript').
                             console.log('Dates: --------------------')
                             console.dir('#{Dates}'.split(','))
