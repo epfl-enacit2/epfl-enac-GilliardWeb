@@ -41,6 +41,9 @@ router.get('/', function (req, res, next) {
 
 //connection.query("SELECT * FROM testsequelize.sensorvalues order by Sensors_SID;")
 router.get('/sensors', function (req, res, next) {
+  GilliardDb.models.AcquisitionSys.belongsToMany(GilliardDb.models.Boards, { through: 'IdAcquisitionSys'});
+  GilliardDb.models.Boards.belongsToMany(GilliardDb.models.AcquisitionSys, { through: 'IdAcquisitionSys'});
+
   connection.query("Select acquisitionsys.Computername, sensors.SID, boards.BID FROM acquisitionsys INNER JOIN boards ON acquisitionsys.IdAcquisitionSys = boards.AcquisitionSys_IdAcquisitionSys INNER JOIN sensors ON boards.AcquisitionSys_IdAcquisitionSys = sensors.Boards_AcquisitionSys_IdAcquisitionSys")
     .then(function (projects) {
       console.log(projects[0])
@@ -50,7 +53,32 @@ router.get('/sensors', function (req, res, next) {
       });
     });
 });
+/*
+GilliardDb.models.AcquisitionSys
+    .findAll(
+    {
+        where: { 
+            $and: [
+                { IdAcquisitionSys: "1" },
+                { Sciper: "240312" }
+                ]},
+            defaults: {
+                IdAcquisitionSys: "1",
+                Sciper: "240312",
+                Computername: 'enacitpc30',
+                Responsible: "mbonjour <mickael.bonjour@epfl.ch>",
+                AppVersion: "0.0.1"
+        }
+    });
 
+GilliardDb.models.AcquisitionSys.belongsToMany(Team, { through: 'IdAcquisitionSys'});
+GilliardDb.models.Boards.belongsToMany(User, { through: 'IdAcquisitionSys'});
+
+GilliardDb.models.AcquisitionSys.belongsToMany(Team, { through: 'IdAcquisitionSys'});
+GilliardDb.models.Sensors.belongsToMany(Folder, { through: 'IdAcquisitionSys'});
+
+
+*/
 
 router.get('/graph', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
