@@ -2,8 +2,6 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-
-
 var GilliardDb = require('epfl-enac-gilliarddb')(
     { 
       hostname: 'localhost',
@@ -12,22 +10,10 @@ var GilliardDb = require('epfl-enac-gilliarddb')(
       password:''
     }
   );
-
-console.log(GilliardDb);
-
-
 var Sequelize = require('sequelize');
- 
 var connection = new Sequelize('testsequelize', 'root', '');
-
 var Post = connection.define('sensorvalues', {});
 
-
-/* GET home page.*/
- //res.render('index', {
-    //title : "test"
-  //});
-//});
 router.get('/', function (req, res, next) {
  connection.query("Select acquisitionsys.Computername, sensors.SID, boards.BID FROM acquisitionsys INNER JOIN boards ON acquisitionsys.IdAcquisitionSys = boards.AcquisitionSys_IdAcquisitionSys INNER JOIN sensors ON boards.AcquisitionSys_IdAcquisitionSys = sensors.Boards_AcquisitionSys_IdAcquisitionSys")
     .then(function (projects) {
@@ -53,6 +39,21 @@ router.get('/sensors', function (req, res, next) {
       });
     });
 });
+
+router.get('/sensors2', function (req, res) {
+  GilliardDb.models.AcquisitionSys
+    .findAll()
+    .then(function(Acqu) {
+      GilliardDb.models.Boards
+      .findAll({})
+      .then((Boards)=> {
+        Acqu[0].dataValues.Boards = Boards;
+        res.json(Acqu);
+      });
+      
+    });
+});
+
 /*
 GilliardDb.models.AcquisitionSys
     .findAll(
@@ -129,26 +130,26 @@ router.get('/graph', function (req, res, next) {
                 ]},
     })
     .then(function (project) {
-    console.log(project)
-    var arrayDates = []
-    var arrayValues = []
-    var k = 0
-    project.forEach(function(element) {
-      arrayDates[k]= moment(element.CreatedAt).utc().format('YYYY/MM/DD HH:mm:ss'),
-      arrayValues[k]= element.Value
-      k++
-    }, this);
-    k = 0
-    console.log(moment(DateTest).format('YYYY/MM/DD HH:mm:ss'));
-  res.render('graph', {
-    Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
-    Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
-    obj : obj,
-    test : project,
-    Dates : arrayDates,
-    Values : arrayValues
+      console.log(project)
+      var arrayDates = []
+      var arrayValues = []
+      var k = 0
+      project.forEach(function(element) {
+        arrayDates[k]= moment(element.CreatedAt).utc().format('YYYY/MM/DD HH:mm:ss'),
+        arrayValues[k]= element.Value
+        k++
+      }, this);
+      k = 0
+      console.log(moment(DateTest).format('YYYY/MM/DD HH:mm:ss'));
+    res.render('graph', {
+      Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
+      Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
+      obj : obj,
+      test : project,
+      Dates : arrayDates,
+      Values : arrayValues
+    });
   });
-});
 });
 
 module.exports = router; 
