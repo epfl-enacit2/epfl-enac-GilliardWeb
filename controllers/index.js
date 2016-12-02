@@ -40,14 +40,61 @@ router.get('/sensors', function (req, res, next) {
     });
 });
 
+router.get('/sensors3', function (req, res) {
+  connection.query(
+    `SELECT a.Computername, s.SID, b.BID, s.Unit, sv.Value, sv.CreatedAt
+      FROM acquisitionsys AS a
+      INNER JOIN  boards AS b ON 
+        a.IdAcquisitionSys = b.AcquisitionSys_IdAcquisitionSys AND 
+        a.Sciper = b.AcquisitionSys_Sciper
+      INNER JOIN sensors AS s ON 
+        b.AcquisitionSys_IdAcquisitionSys = s.Boards_AcquisitionSys_IdAcquisitionSys AND
+        b.AcquisitionSys_Sciper = s.Boards_AcquisitionSys_Sciper AND
+        b.BID = s.Boards_BID
+      INNER JOIN sensorValues as sv ON 
+        s.Boards_AcquisitionSys_IdAcquisitionSys = sv.Sensors_Boards_AcquisitionSys_IdAcquisitionSys AND
+        s.Boards_AcquisitionSys_Sciper = sv.Sensors_Boards_AcquisitionSys_Sciper AND
+        s.Boards_BID = sv.Sensors_Boards_BID AND
+        s.SID = sv.Sensors_SID 
+        `)
+    .then(function (projects) {
+      console.log(projects[0])
+
+      res.json(projects);
+    });
+
+})
+
 router.get('/sensors2', function (req, res) {
   GilliardDb.models.AcquisitionSys
     .findAll()
     .then(function(Acqu) {
+
       GilliardDb.models.Boards
-      .findAll({})
+      .findAll({ })
       .then((Boards)=> {
         Acqu[0].dataValues.Boards = Boards;
+
+        // var toto = [
+        //   {
+        //     AcquisitionSysComputername : 'totoPc1',
+        //     boards: [
+        //       {
+        //         boardName: 'BID1',
+        //         sensors:[
+        //           {
+        //             sensorName: 'Sens1',
+        //             unit: '°C',
+        //             sensorValues:[
+        //               { val: 12.3, date: '12.12.2017' }
+        //             ]
+        //           }
+        //         ]
+        //       }
+        //     ]
+        //   }
+        // ]
+
         res.json(Acqu);
       });
       
