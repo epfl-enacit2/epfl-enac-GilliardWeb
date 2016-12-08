@@ -50,7 +50,7 @@ block content
                   })
     .col-md-2(style="width: 11.3%;")
       .form-group
-          <select id="example-enableFiltering-includeSelectAllOption", name='list' style="display : none", multiselect>
+          <select id="example-enableFiltering-includeSelectAllOption"  multiple="multiple", name='list' style="display : none", multiselect>
               each el in title
                 option(value=el) #{el.Computername}, #{el.SID}, #{el.BID}
           </select>

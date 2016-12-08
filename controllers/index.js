@@ -26,11 +26,22 @@ router.get('/', function (req, res, next) {
 });
 
 //connection.query("SELECT * FROM testsequelize.sensorvalues order by Sensors_SID;")
+//connection.query("Select acquisitionsys.Computername, sensors.SID, boards.BID FROM acquisitionsys INNER JOIN boards ON acquisitionsys.IdAcquisitionSys = boards.AcquisitionSys_IdAcquisitionSys INNER JOIN sensors ON boards.AcquisitionSys_IdAcquisitionSys = sensors.Boards_AcquisitionSys_IdAcquisitionSys")
 router.get('/sensors', function (req, res, next) {
   GilliardDb.models.AcquisitionSys.belongsToMany(GilliardDb.models.Boards, { through: 'IdAcquisitionSys'});
   GilliardDb.models.Boards.belongsToMany(GilliardDb.models.AcquisitionSys, { through: 'IdAcquisitionSys'});
 
-  connection.query("Select acquisitionsys.Computername, sensors.SID, boards.BID FROM acquisitionsys INNER JOIN boards ON acquisitionsys.IdAcquisitionSys = boards.AcquisitionSys_IdAcquisitionSys INNER JOIN sensors ON boards.AcquisitionSys_IdAcquisitionSys = sensors.Boards_AcquisitionSys_IdAcquisitionSys")
+  connection.query(
+    `SELECT a.Computername, s.SID, b.BID, s.Unit
+      FROM acquisitionsys AS a
+      INNER JOIN  boards AS b ON 
+        a.IdAcquisitionSys = b.AcquisitionSys_IdAcquisitionSys AND 
+        a.Sciper = b.AcquisitionSys_Sciper
+      INNER JOIN sensors AS s ON 
+        b.AcquisitionSys_IdAcquisitionSys = s.Boards_AcquisitionSys_IdAcquisitionSys AND
+        b.AcquisitionSys_Sciper = s.Boards_AcquisitionSys_Sciper AND
+        b.BID = s.Boards_BID
+        `)
     .then(function (projects) {
       console.log(projects[0])
 
@@ -166,8 +177,77 @@ router.get('/graph', function (req, res, next) {
   //console.log(Date1 + " " + Date2);
   //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
 
-  GilliardDb.models.SensorValues
-    .findAll(
+     connection.query(
+    `SELECT a.Computername, s.SID, b.BID, s.Unit, sv.Value, sv.CreatedAt
+      FROM acquisitionsys AS a
+      INNER JOIN  boards AS b ON 
+        a.IdAcquisitionSys = b.AcquisitionSys_IdAcquisitionSys AND 
+        a.Sciper = b.AcquisitionSys_Sciper
+      INNER JOIN sensors AS s ON 
+        b.AcquisitionSys_IdAcquisitionSys = s.Boards_AcquisitionSys_IdAcquisitionSys AND
+        b.AcquisitionSys_Sciper = s.Boards_AcquisitionSys_Sciper AND
+        b.BID = s.Boards_BID
+      INNER JOIN sensorValues as sv ON 
+        s.Boards_AcquisitionSys_IdAcquisitionSys = sv.Sensors_Boards_AcquisitionSys_IdAcquisitionSys AND
+        s.Boards_AcquisitionSys_Sciper = sv.Sensors_Boards_AcquisitionSys_Sciper AND
+        s.Boards_BID = sv.Sensors_Boards_BID AND
+        s.SID = sv.Sensors_SID 
+      WHERE s.SID IN ('DW1', 'HA1') and sv.CreatedAt BETWEEN '2016-09-06 11:27:34.996' AND '2016-09-06 12:00:00.000' ORDER BY s.SID
+        `)
+    .then(function (project) {
+      console.log(project)
+      var arrayDates = []
+      var arrayValues = []
+      var k = 0
+      project[0].forEach(function(element) {
+        arrayDates[k]= moment(element.CreatedAt).utc().format('YYYY/MM/DD HH:mm:ss'),
+        arrayValues[k]= element.Value
+        k++
+      }, this);
+      k = 0
+      console.log(moment(DateTest).format('YYYY/MM/DD HH:mm:ss'));
+
+      var structuredValues= [];
+      for (var i = 0; i < project[0].length; i++) {
+         var currentSensorItem = project[0][i];
+         var existingSensorObjs = structuredValues.filter(function(sensor){ return sensor.title === currentSensorItem.SID });
+         var existingSensor;
+ 
+         if(existingSensorObjs.length > 0){
+           existingSensor =  existingSensorObjs[0];
+         } else {
+           existingSensor = { 
+             title: currentSensorItem.SID, 
+             values: [] 
+           };
+        }
+         existingSensor.values.push({
+          sensVal: currentSensorItem.Value, 
+          date: currentSensorItem.CreatedAt
+        });
+ 
+         if(existingSensorObjs.length <= 0){
+          structuredValues.push(existingSensor);
+          }
+      }
+    res.render('graph', {
+      Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
+      Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
+      obj : obj,
+      test : project[0],
+      Dates : arrayDates,
+      Values : arrayValues
+    });
+  });
+});
+
+module.exports = router; 
+
+
+
+/*
+GilliardDb.models.SensorValues
+.findAll(
     {
         where: { 
             $and: [
@@ -176,27 +256,4 @@ router.get('/graph', function (req, res, next) {
                 { CreatedAt: {$between : [moment(DateTest).format(), moment(DateTest2).format()]},}
                 ]},
     })
-    .then(function (project) {
-      console.log(project)
-      var arrayDates = []
-      var arrayValues = []
-      var k = 0
-      project.forEach(function(element) {
-        arrayDates[k]= moment(element.CreatedAt).utc().format('YYYY/MM/DD HH:mm:ss'),
-        arrayValues[k]= element.Value
-        k++
-      }, this);
-      k = 0
-      console.log(moment(DateTest).format('YYYY/MM/DD HH:mm:ss'));
-    res.render('graph', {
-      Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
-      Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
-      obj : obj,
-      test : project,
-      Dates : arrayDates,
-      Values : arrayValues
-    });
-  });
-});
-
-module.exports = router; 
+*/    
