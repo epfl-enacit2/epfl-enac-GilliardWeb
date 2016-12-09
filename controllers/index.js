@@ -236,7 +236,8 @@ router.get('/graph', function (req, res, next) {
       obj : obj,
       test : project[0],
       Dates : arrayDates,
-      Values : arrayValues
+      Values : arrayValues,
+      structuredValues : structuredValues
     });
   });
 });
