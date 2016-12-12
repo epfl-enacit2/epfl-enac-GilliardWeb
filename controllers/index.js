@@ -177,6 +177,8 @@ router.get('/graph', function (req, res, next) {
   //console.log(Date1 + " " + Date2);
   //connection.query("SELECT * FROM testsequelize.sensorvalues Where Sensors_SID = 'DW1'")
 
+  //WHERE s.SID IN ('DW1', 'HA1') and sv.CreatedAt BETWEEN '2016-09-06 11:27:34.996' AND '2016-09-06 12:00:00.000' ORDER BY s.SID
+  //WHERE s.SID IN (`+ SID + `) and sv.CreatedAt BETWEEN `+ Date1 +` AND `+ Date2 +` ORDER BY s.SID
      connection.query(
     `SELECT a.Computername, s.SID, b.BID, s.Unit, sv.Value, sv.CreatedAt
       FROM acquisitionsys AS a
@@ -218,19 +220,18 @@ router.get('/graph', function (req, res, next) {
          } else {
            existingSensor = { 
              title: currentSensorItem.SID, 
-             values: [] 
+             values: [],
+             dates: []
            };
         }
-         existingSensor.values.push({
-          sensVal: currentSensorItem.Value, 
-          date: currentSensorItem.CreatedAt
-        });
+         existingSensor.values.push(currentSensorItem.Value);
+         existingSensor.dates.push(currentSensorItem.CreatedAt);
  
          if(existingSensorObjs.length <= 0){
           structuredValues.push(existingSensor);
           }
       }
-    res.render('graph', {
+    res.render('graph2', {
       Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
       Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
       obj : obj,

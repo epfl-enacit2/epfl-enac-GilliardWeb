@@ -8,13 +8,18 @@ block content
                             console.log('Valeurs: --------------------')
                             console.dir('#{Values}'.split(',').map(Number))
                             
-                            var test2 = '#{structuredValues}'
+                            var test3 = '#{structuredValues[0].data}'
                             console.log('structuredValues: --------------------')
-                            console.dir('#{structuredValues[0].values}')
+                            console.dir(test3)
                             
                             var test = {
-                                                name: '#{obj.SID}',
-                                                data: '#{Values}'.split(',').map(Number)
+                                                name: '#{structuredValues[0].title}',
+                                                data: '#{structuredValues[0].values}'.split(',').map(Number)
+                                            }
+
+                            var test2 = {
+                                                name: '#{structuredValues[1].title}',
+                                                data: '#{structuredValues[1].values}'.split(',').map(Number)
                                             }
                             $(function () {
                                         $('#container').highcharts({
@@ -46,6 +51,6 @@ block content
                                                 verticalAlign: 'middle',
                                                 borderWidth: 0
                                             },
-                                            series: [test,]
+                                            series: [test,test2,]
                                         });
                                         });
