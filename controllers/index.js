@@ -228,7 +228,15 @@ router.get('/graph', function (req, res, next) {
          existingSensor.values.push(currentSensorItem.Value);
          existingSensor.dates.push(currentSensorItem.CreatedAt);
         */
-        existingSensor.values.push([moment(currentSensorItem.CreatedAt).format('YYYY/MM/DD HH:mm:ss'), currentSensorItem.Value]);
+
+        existingSensor.values.push([currentSensorItem.Value]);
+        existingSensor.dates.push([Date.parse(currentSensorItem.CreatedAt)]);
+        /*
+        existingSensor.values.push({
+           sensVal: currentSensorItem.Value, 
+           date: Date.parse(currentSensorItem.CreatedAt)
+         });
+        */
          if(existingSensorObjs.length <= 0){
           structuredValues.push(existingSensor);
           }
