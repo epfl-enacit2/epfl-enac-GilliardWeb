@@ -24,10 +24,10 @@ block content
                                         type: 'spline'
                                     },
                                     title: {
-                                        text: 'Snow depth at Vikjafjellet, Norway'
+                                        text: 'Graphic Sensor'
                                     },
                                     subtitle: {
-                                        text: 'Irregular time data in Highcharts JS'
+                                        text: ''
                                     },
                                     xAxis: {
                                         type: 'datetime',
@@ -41,13 +41,13 @@ block content
                                     },
                                     yAxis: {
                                         title: {
-                                            text: 'Snow depth (m)'
+                                            text: ''
                                         },
                                         min: 0
                                     },
                                     tooltip: {
-                                        headerFormat: '<b>{series.name}</b><br>',
-                                        pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
+                                        headerFormat: '<b>{point.y:.2f}</b><br>',
+                                        pointFormat: '{point.x:%e. %b. %H. %M. %S}'
                                     },
 
                                     plotOptions: {

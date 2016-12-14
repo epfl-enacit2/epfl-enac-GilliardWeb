@@ -142,7 +142,7 @@ GilliardDb.models.Sensors.belongsToMany(Folder, { through: 'IdAcquisitionSys'});
 router.get('/graph', function (req, res, next) {
   var Date1 = req.query.datetimepicker1
   var DateTest = new Date (Date1)
-  console.log(moment('2016-07-29T10:21:48.000Z').format())
+  //console.log(moment('2016-07-29T10:21:48.000Z').format())
   //console.log(moment(DateTest).isValid()) // false
   var Date2 = req.query.datetimepicker2
   var DateTest2 = new Date (Date2)
@@ -169,6 +169,8 @@ router.get('/graph', function (req, res, next) {
     BID = obj.BID
    // console.log(obj[0])
   }
+  
+  var parsedSID = `"${SID.join("\",\"")}"` 
 
   //console.log(obj)
   //var names = req.body['names[]'];
@@ -194,7 +196,7 @@ router.get('/graph', function (req, res, next) {
         s.Boards_AcquisitionSys_Sciper = sv.Sensors_Boards_AcquisitionSys_Sciper AND
         s.Boards_BID = sv.Sensors_Boards_BID AND
         s.SID = sv.Sensors_SID 
-      WHERE s.SID IN ('DW1', 'HA1') and sv.CreatedAt BETWEEN '2016-09-06 11:27:34.996' AND '2016-09-06 12:00:00.000' ORDER BY sv.CreatedAt
+      WHERE s.SID IN (${parsedSID}) and sv.CreatedAt BETWEEN "${moment(DateTest).format()}" AND "${moment(DateTest2).format()}" ORDER BY sv.CreatedAt
         `)
     .then(function (project) {
       console.log(project)
