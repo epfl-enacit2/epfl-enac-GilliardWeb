@@ -194,7 +194,7 @@ router.get('/graph', function (req, res, next) {
         s.Boards_AcquisitionSys_Sciper = sv.Sensors_Boards_AcquisitionSys_Sciper AND
         s.Boards_BID = sv.Sensors_Boards_BID AND
         s.SID = sv.Sensors_SID 
-      WHERE s.SID IN ('DW1', 'HA1') and sv.CreatedAt BETWEEN '2016-09-06 11:27:34.996' AND '2016-09-06 12:00:00.000' ORDER BY s.SID
+      WHERE s.SID IN ('DW1', 'HA1') and sv.CreatedAt BETWEEN '2016-09-06 11:27:34.996' AND '2016-09-06 12:00:00.000' ORDER BY sv.CreatedAt
         `)
     .then(function (project) {
       console.log(project)
@@ -221,7 +221,7 @@ router.get('/graph', function (req, res, next) {
            existingSensor = { 
              title: currentSensorItem.SID, 
              values: [],
-             dates: []
+             //dates: []
            };
         }
         /*
@@ -229,8 +229,8 @@ router.get('/graph', function (req, res, next) {
          existingSensor.dates.push(currentSensorItem.CreatedAt);
         */
 
-        existingSensor.values.push([currentSensorItem.Value]);
-        existingSensor.dates.push([Date.parse(currentSensorItem.CreatedAt)]);
+        existingSensor.values.push([Date.parse(currentSensorItem.CreatedAt),currentSensorItem.Value]);
+        //existingSensor.dates.push(JSON.stringify([Date.parse(currentSensorItem.CreatedAt)]));
         /*
         existingSensor.values.push({
            sensVal: currentSensorItem.Value, 
@@ -241,14 +241,17 @@ router.get('/graph', function (req, res, next) {
           structuredValues.push(existingSensor);
           }
       }
+      var string_structuredValues = JSON.stringify((structuredValues))
+      var tempReturnVal= structuredValues.map(function(x){ return { name: x.title, data: x.values }})
+
     res.render('graph2', {
-      Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
-      Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
-      obj : obj,
-      test : project[0],
-      Dates : arrayDates,
-      Values : arrayValues,
-      structuredValues : structuredValues
+      // Date1 : moment(DateTest).format('YYYY/MM/DD HH:mm:ss'),
+      // Date2 : moment(DateTest2).format('YYYY/MM/DD HH:mm:ss'),
+      // obj : obj,
+      // test : project[0],
+      // Dates : arrayDates,
+      // Values : arrayValues,
+      structuredValues : tempReturnVal
     });
   });
 });

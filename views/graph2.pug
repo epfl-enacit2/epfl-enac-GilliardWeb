@@ -3,46 +3,21 @@ block content
             .form-group
                 #container(style='min-width: 200px; height: 700px; margin: 0 auto')
                         script(type='text/javascript').
-                                console.dir('#{structuredValues[0].values}'.split(',').map(Number))
-                                console.dir('#{structuredValues[0].dates}'.split(',').map(Number))
-                                console.log(Date.UTC(1970, 9, 29))
-                                console.dir([Date.UTC(1970, 9, 29), 0])
+                            //console.dir('#{structuredValues[0].values})')
+                            // console.dir('#{structuredValues[0].dates}'.split(',').map(Number))
+                            //console.log(Date.UTC(1970, 9, 29))
+                            //console.dir([Date.UTC(1970, 9, 29), 0])
 
-                                var testData = {
-                                        name: "",
-                                        data: []
-                                    }
-
-                               var dataArray = [];
-
-
-
-
-                                var test = [{
-                                        name: '#{structuredValues[0].title}',
-                                        // Define the data points. All series have a dummy year
-                                        // of 1970/71 in order to be compared on the same x axis. Note
-                                        // that in JavaScript, months start at 0 for January, 1 for February etc.
-                                        data: '#{structuredValues[0].values}'
-                                    }, 
-                                    {
-                                        name: 'Winter 2013-2014',
-                                        data: [
-                                            [Date.UTC(1970, 9, 29), 0],
-                                            [Date.UTC(1970, 10, 9), 0.4],
-                                            [Date.UTC(1970, 11, 1), 0.25],
-                                            [Date.UTC(1971, 0, 1), 1.66],
-                                            [Date.UTC(1971, 0, 10), 1.8],
-                                            [Date.UTC(1971, 1, 19), 1.76],
-                                            [Date.UTC(1971, 2, 25), 2.62],
-                                            [Date.UTC(1971, 3, 19), 2.41],
-                                            [Date.UTC(1971, 3, 30), 2.05],
-                                            [Date.UTC(1971, 4, 14), 1.7],
-                                            [Date.UTC(1971, 4, 24), 1.1],
-                                            [Date.UTC(1971, 5, 10), 0]
-                                        ]
-                                    }
-                                ]
+                            var test = !{JSON.stringify(structuredValues).replace(/<\//g, '<\\/')}
+                            console.dir(test)
+                            //- var test = [{
+                            //-         name: "test",
+                            //-         // Define the data points. All series have a dummy year
+                            //-         // of 1970/71 in order to be compared on the same x axis. Note
+                            //-         // that in JavaScript, months start at 0 for January, 1 for February etc.
+                            //-         data: []
+                            //-     }
+                            //- ]
                             $(function () {
                                 Highcharts.chart('container', {
                                     chart: {
