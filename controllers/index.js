@@ -161,16 +161,16 @@ router.get('/graph', function (req, res, next) {
       BID[j] = obj[j].BID
       //console.log(obj[j]);
       }
+     var parsedSID = `"${SID.join("\",\"")}"` 
   }
   else{
     obj = JSON.parse(select)
     Computername = obj.Computername
     SID = obj.SID
     BID = obj.BID
+    var parsedSID = `"${SID}"`
    // console.log(obj[0])
   }
-  
-  var parsedSID = `"${SID.join("\",\"")}"` 
 
   //console.log(obj)
   //var names = req.body['names[]'];
